@@ -1,3 +1,5 @@
+const people = require('../data/people');
+
 /**
  *
  * Pure Functions
@@ -45,39 +47,12 @@ const findFemales = people => people.filter(isFemale);
  * example, we can use a pure function to convert the data of a people array
  * using the higher order function "map".
  */
-const getName = person => person.name;
-const collectNames = people => people.map(getName);
+const getName  = person => person.name;
+const getNames = people => people.map(getName);
 
 /**
  * EXAMPLES:
  */
-const people = [
-    {
-        name: 'Patrick',
-        gender: 'male'
-    },
-    {
-        name: 'Bob',
-        gender: 'male'
-    },
-    {
-        name: 'Beverly',
-        gender: 'female'
-    },
-    {
-        name: 'Zoe',
-        gender: 'female'
-    },
-    {
-        name: 'James',
-        gender: 'male'
-    },
-    {
-        name: 'Finley',
-        gender: 'female'
-    }
-];
-
 // Square examples.
 console.log('SQUARE:', square(2));
 console.log('SQUARE:', square(100));
@@ -88,14 +63,9 @@ console.log('MALES:', findMales(people));
 console.log('FEMALES:', findFemales(people));
 
 // Getting an array of all the names of people.
-console.log('NAMES:', collectNames(people));
+console.log('NAMES:', getNames(people));
 
 // Finally composing these methods to get only the names of all the males and
 // then all the females.
 console.log('MALE NAMES:', people.filter(isMale).map(getName));
 console.log('FEMALE NAMES:', people.filter(isFemale).map(getName));
-
-
-
-
-
