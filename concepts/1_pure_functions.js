@@ -25,20 +25,77 @@
 const square = x => x * x;
 
 /**
- * This is a pure function that will return a boolean that is based on whether
- * a person object passed in is male.
+ * These are pure functions that will return a boolean that is based on the
+ * value of gender of the passed object.
  */
-const isMale = person => person.gender === 'male';
+const isMale   = person => person.gender === 'male';
+const isFemale = person => person.gender === 'female';
 
 /**
- * This is a pure function that will find all the male people in an array of
- * people. Notice how it uses the "isMale" method above. This is another
+ * This is a pure function that will find all the males in an array of people.
+ * Notice how it uses the "isMale" and "isFemale" method above. This is another
  * cornerstone of functional programming which is that all methods compose well
- * together.
+ * together. More on this later.
  */
-function findMales(people) {
-    return people.filter(isMale);
-}
+const findMales   = people => people.filter(isMale);
+const findFemales = people => people.filter(isFemale);
+
+/**
+ * In addition, we can use pure functions to fuel higher order functions. For
+ * example, we can use a pure function to convert the data of a people array
+ * using the higher order function "map".
+ */
+const getName = person => person.name;
+const collectNames = people => people.map(getName);
+
+/**
+ * EXAMPLES:
+ */
+const people = [
+    {
+        name: 'Patrick',
+        gender: 'male'
+    },
+    {
+        name: 'Bob',
+        gender: 'male'
+    },
+    {
+        name: 'Beverly',
+        gender: 'female'
+    },
+    {
+        name: 'Zoe',
+        gender: 'female'
+    },
+    {
+        name: 'James',
+        gender: 'male'
+    },
+    {
+        name: 'Finley',
+        gender: 'female'
+    }
+];
+
+// Square examples.
+console.log('SQUARE:', square(2));
+console.log('SQUARE:', square(100));
+console.log('SQUARE:', square(86));
+
+// Finding males and females in the array.
+console.log('MALES:', findMales(people));
+console.log('FEMALES:', findFemales(people));
+
+// Getting an array of all the names of people.
+console.log('NAMES:', collectNames(people));
+
+// Finally composing these methods to get only the names of all the males and
+// then all the females.
+console.log('MALE NAMES:', people.filter(isMale).map(getName));
+console.log('FEMALE NAMES:', people.filter(isFemale).map(getName));
+
+
 
 
 
