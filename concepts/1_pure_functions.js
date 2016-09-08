@@ -12,6 +12,7 @@
  * Because of this, pure functions allow you to only worry about the body of
  * the function, and reduces the cognitive load of programming.
  *
+ * @link https://medium.com/@chetcorcos/functional-programming-for-javascript-people-1915d8775504#.vb9emteh4
  * @link http://www.nicoespeon.com/en/2015/01/pure-functions-javascript/
  * @link http://alistapart.com/article/making-your-javascript-pure/
  *
