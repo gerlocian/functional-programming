@@ -1,11 +1,4 @@
-const animals = [
-    { name: 'Snickers', type: 'dog' },
-    { name: 'Misty',    type: 'cat' },
-    { name: 'Coco',     type: 'rat' },
-    { name: 'Lola',     type: 'rat' },
-    { name: 'Shawna',   type: 'dog' },
-    { name: 'Mert',     type: 'turtle' }
-];
+
 
 function isDog(animal) {
     return animal.type === 'dog';
@@ -44,5 +37,5 @@ function getNameOfAnimal(animal) {
 }
 
 console.log(
-    animals.filter(isDog).map(getNameOfAnimal).sort()
+    findDogs(animals).map(getNameOfAnimal).sort()
 );
