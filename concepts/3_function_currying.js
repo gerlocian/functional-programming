@@ -119,7 +119,118 @@ readPeople((err, data) => {
 });
 
 /**
- * In conclusion, function currying is strong tool to put in your belt. You
- * may not need to use this in every case, but starting to use them will not
- * hurt your program execution.
+ * Here's another example. Once again, we'll use the pets collection.
+ *
+ * Let's say that you need to create a list derived from the pets collection
+ * that has all the pet's names, but only for the dogs. There are two ways to
+ * do this.
+ *
+ * Example 1:
  */
+let dogs = pets.filter(pet => pet.species === 'dog').map(pet => pet.name);
+console.log(dogs);
+
+/**
+ * This will work just fine, but we won't be able to reuse the filter as it is
+ * specific to dogs only. We would have to recreate the filter completely in
+ * order to get cats. Literally, we would have to reimplement the same logic
+ * over again in order to specify cats.
+ *
+ * This is where function currying works well. Using the
+ * following curried function, we can create a more generic function that obeys
+ * pure functional programming and gives us the ability to specify the species
+ * we need without recreating the filter every time.
+ */
+const petIsSpecies = species => {
+    return pet => {
+        return pet.species === species;
+    }
+};
+
+dogs = pets.filter(petIsSpecies('dog')).map(pet => pet.name);
+console.log(dogs);
+
+/**
+ * While this works well for a single filter criteria, it works far better for
+ * a filter with multiple queries. Let's say we want all dogs over the age of
+ * 10. We can use the following curried function.
+ */
+const petIsSpeciesOverAge = species => {
+    return age => {
+        return pet => {
+            return pet.species === species
+                && pet.age > age;
+        }
+    }
+};
+
+const dogsOver10 = petIsSpeciesOverAge('dog')(10);
+
+dogs = pets.filter(dogsOver10).map(pet => pet.name);
+console.log(dogs);
+
+/**
+ * And of course, we can create each step piecemeal.
+ */
+const canines = petIsSpeciesOverAge('dog');
+const caninesOver10 = canines(10);
+dogs = pets.filter(caninesOver10).map(pet => pet.name);
+console.log(dogs);
+
+/**
+ * Finally we can create an entire library of curried functions and use them to
+ * build the query above, plus numerous other queries.
+ */
+const overAge = num => pet => pet.age > num;
+const underAge = num => pet => pet.age < num;
+const equalAge = num => pet => pet.age === num;
+
+const isSpecies = species => pet => pet.species === species;
+
+const getName = pet => pet.name;
+
+const searchBy = (...queries) => {
+    return pet => {
+        let results = queries.map(query => query(pet));
+        return results.indexOf(false) === -1 ? true : false;
+    }
+};
+
+const petsOver10 = pets.filter(
+    searchBy(
+        overAge(10)
+    )
+).map(getName);
+console.log(petsOver10);
+
+const rats = pets.filter(
+    searchBy(
+        isSpecies('rat')
+    )
+).map(getName);
+console.log(rats);
+
+const dogsUnder10 = pets.filter(
+    searchBy(
+        isSpecies('dog'),
+        underAge(10)
+    )
+).map(getName);
+console.log(dogsUnder10);
+
+const dogsOver10Under20 = pets.filter(
+    searchBy(
+        isSpecies('dog'),
+        overAge(10),
+        underAge(20)
+    )
+).map(getName);
+console.log(dogsOver10Under20);
+
+const dogsAge16 = pets.filter(
+    searchBy(
+        isSpecies('dog'),
+        equalAge(16)
+    )
+).map(getName);
+console.log(dogsAge16);
