@@ -190,10 +190,7 @@ const isSpecies = species => pet => pet.species === species;
 const getName = pet => pet.name;
 
 const searchBy = (...queries) => {
-    return pet => {
-        let results = queries.map(query => query(pet));
-        return results.indexOf(false) === -1 ? true : false;
-    }
+    return pet => queries.every(query => query(pet));
 };
 
 const petsOver10 = pets.filter(
