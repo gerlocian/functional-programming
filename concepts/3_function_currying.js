@@ -231,3 +231,19 @@ const dogsAge16 = pets.filter(
     )
 ).map(getName);
 console.log(dogsAge16);
+
+/**
+ * Here is a function that makes a function curriable.
+ */
+const curry = fn => {
+    let args = [];
+    
+    const curried = (...a) => {
+        args = [].concat(args, a);
+        return args.length >= fn.length
+            ? fn.apply(null, args)
+            : curried;
+    };
+    
+    return curried;
+};
