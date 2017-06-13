@@ -247,3 +247,46 @@ const curry = fn => {
     
     return curried;
 };
+
+const addEmUp = curry((a, b, c, d) => a + b + c + d);
+const addEmUpAas1 = addEmUp(1);
+const addEmUpBas2 = addEmUpAas1(2);
+const addEmUpCas3 = addEmUpBas2(3);
+console.log(addEmUpCas3(4)); // returns 1 + 2 + 3 + 4 = 10
+
+/**
+ * Here is an example of currying with the bind method.
+ */
+function myFunc (a, b, c, d) {
+    return a + b + c + d;
+}
+
+const addAas1 = myFunc.bind(null, 1);
+const addBas2 = addAas1.bind(null, 2);
+const addCas3 = addBas2.bind(null, 3);
+console.log(addCas3(4)); // returns 1 + 2 + 3 + 4 = 10
+
+/**
+ * Here is a function that uses bind to make a function curriable.
+ */
+function curryBind (fn) {
+    function curried(...args) {
+        return args.length >= fn.length
+            ? fn.apply(null, args)
+            : curried.bind(null, ...args);
+    }
+    return curried;
+}
+
+const cbAdd = curryBind((a, b, c, d) => a + b + c + d);
+const cbAddAas1 = cbAdd(1);
+const cbAddBas2 = cbAddAas1(2);
+const cbAddCas3 = cbAddBas2(3);
+console.log(cbAddCas3(4));
+
+const newAdd = curryBind((a, b, c, d) => a * b * c * d);
+const allButOneArg = newAdd(1, 2, 3);
+console.log(allButOneArg(0)); // 0
+console.log(allButOneArg(1)); // 6
+console.log(allButOneArg(2)); // 12
+
