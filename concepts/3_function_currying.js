@@ -270,7 +270,8 @@ console.log(addCas3(4)); // returns 1 + 2 + 3 + 4 = 10
  * Here is a function that uses bind to make a function curriable.
  */
 function curryBind (fn) {
-    return (...args) => args.length < fn.length ? curried.bind(null, ...args) : fn.apply(null, args);
+    const curried = (...args) => args.length < fn.length ? curried.bind(null, ...args) : fn.apply(null, args);
+    return curried;
 }
 
 const cbAdd = curryBind((a, b, c, d) => a + b + c + d);
